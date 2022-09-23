@@ -1,6 +1,13 @@
 div{
+    margin: auto;
+    align-items: center;
     text-align: center;
     height: fit-content;
     width: fit-content;
     font-size: 20px;
+    padding: .25rem;
     }
+
+td{
+    background-color: rgb(232, 231, 230);
+}

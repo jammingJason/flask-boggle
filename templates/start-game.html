@@ -1,10 +1,31 @@
 {% extends 'base.html' %}
 <title>{% block title %}Boggle!{% endblock %}</title>
 {% block content %}
-<h1>Boggle!</h1>
-<h2>{{check_status}}</h2>
-<div class="div container">
-    <table width="30%">
+<div>
+    <h1>Boggle!</h1>
+</div>
+<h3>
+    <div class="div col" id="lblStatus">
+        Welcome to Boggle!
+    </div>
+</h3>
+<h4>
+    <div class="div col" id="lblScore">
+        Score : 0
+    </div>
+</h4>
+<h4>
+    <div class="div col" id="lblHighscore">
+        Highscore : 0
+    </div>
+</h4>
+<h4>
+    <div class="div col" id="lblTimer">
+        60 seconds left
+    </div>
+</h4>
+<div class="div container justify-content-center">
+    <table width="30%" align="center">
         {% for board in session['board'] %}
         <tr>
             {% for row in board %}
@@ -16,17 +37,18 @@
         {% endfor %}
     </table>
 </div>
-<form action="/check-word" name="frmMain">
+
+<form action="" name=" frmMain" method="get">
     <div class="div container">
-        <div class="row justify-content-center">
-            <div class="div col p-3">
-                <input type="text" name="word" id="word">
-                <br>
-                <button class="btn btn-success m-3" id="btnGuess">Guess a Word!</button>
-            </div>
-        </div>
+        <input type="text" name="word" id="word">
+        <br>
+        <button class="btn btn-success m-3" id="btnGuess">Guess a Word!</button>
     </div>
 </form>
+<div class="div container">
 
-<hr>
+    <button class="btn btn-success m-3" id="btnStartOver" hidden="true">Start a new Game!</button>
+
+</div>
+
 {% endblock %}
