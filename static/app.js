@@ -59,10 +59,12 @@ async function setHighscore(score) {
   let setHighscore = await axios.get('/set-highscore', {
     params: { score: score },
   });
-  getHighscore();
   console.log(setHighscore.data);
 }
 
+// getHighscore();
+
 function getHighscore() {
-  $('#lblHighscore').html('Highscore : ' + session['highscore']);
+  // alert();
+  $('#lblHighscore').html('Highscore : ');
 }

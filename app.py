@@ -15,7 +15,9 @@ boggle_game = Boggle()
 @app.route('/')
 def index():
     """Go to the homepage"""
-    return render_template('index.html')
+    # if not session['highscore']:
+    #     session['highscore'] = 0
+    return render_template('index.html?session=' + session['highscore'])
 
 
 @app.route('/start-game')
@@ -23,7 +25,12 @@ def start_game():
     """Start a new game"""
     new_board = boggle_game.make_board()
     session['board'] = new_board
-    return render_template('start-game.html', new_board=new_board)
+
+    if session['highscore']:
+        pass
+    else:
+        session['highscore'] = 0
+    return render_template('start-game.html', highscore=session['highscore'])
 
 
 @app.route('/check-word')
@@ -36,5 +43,7 @@ def check_word():
 
 @app.route('/set-highscore')
 def set_highscore():
-    session['highscore'] = request.args['score']
+    if request.args:
+        if int(session['highscore']) <= int(request.args['score']):
+            session['highscore'] = request.args['score']
     return session['highscore']
