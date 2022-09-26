@@ -59,12 +59,22 @@ async function setHighscore(score) {
   let setHighscore = await axios.get('/set-highscore', {
     params: { score: score },
   });
-  console.log(setHighscore.data);
+  // console.log(setHighscore.data);
+}
+async function setCount(times_visited) {
+  const obj = { times_visited: times_visited };
+
+  const request = new Request('/count', {
+    method: 'POST',
+    body: JSON.stringify(obj),
+  });
+
+  request.json().then((data) => {
+    console.log(data.times_visited);
+  });
 }
 
-// getHighscore();
-
-function getHighscore() {
-  // alert();
-  $('#lblHighscore').html('Highscore : ');
-}
+$('#btnPost').on('click', function (evt) {
+  evt.preventDefault();
+  setCount(12);
+});

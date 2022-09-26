@@ -1,5 +1,5 @@
 
-from crypt import methods
+
 from boggle import Boggle
 from flask import Flask, request, render_template, session, redirect
 from flask_debugtoolbar import DebugToolbarExtension
@@ -19,11 +19,7 @@ def index():
         highscore = session['highscore']
     else:
         session['highscore'] = 0
-    if 'times_visited' in session:
-        times_visited = session['times_visited'] + 1
-        session['times_visited'] = times_visited
-    else:
-        session['times_visited'] = 1
+
     return render_template('index.html')
 
 
@@ -32,8 +28,8 @@ def start_game():
     """Start a new game"""
     new_board = boggle_game.make_board()
     session['board'] = new_board
-
-    return render_template('start-game.html', highscore=session['highscore'], times_visited=session['times_visited'])
+    times_visited = count()
+    return render_template('start-game.html', highscore=session['highscore'], times_visited=times_visited)
 
 
 @app.route('/check-word')
@@ -50,3 +46,8 @@ def set_highscore():
         if int(session['highscore']) <= int(request.args['score']):
             session['highscore'] = request.args['score']
     return session['highscore']
+
+
+@app.route('/count', methods=['POST'])
+def count():
+    request.json('times_visited')
