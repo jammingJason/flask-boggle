@@ -50,4 +50,4 @@ def set_highscore():
 
 @app.route('/count', methods=['POST'])
 def count():
-    request.json('times_visited')
+    return 'VJC'

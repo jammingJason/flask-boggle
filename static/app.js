@@ -52,7 +52,7 @@ function timer() {
 timer();
 
 $('#btnStartOver').on('click', function (evt) {
-  document.location = '/';
+  document.location = '/start-game';
 });
 
 async function setHighscore(score) {
@@ -62,15 +62,25 @@ async function setHighscore(score) {
   // console.log(setHighscore.data);
 }
 async function setCount(times_visited) {
+  // await axios
+  //   .post(
+  //     '/count', //url
+  //     { x: 1 }, //body
+  //     { headers: { 'Content-Type': 'multipart/form-data' } } // headers
+  //   )
+  //   .then(function returnJSON(response) {
+  //     return response.json();
+  //   })
+  //   .then(function handler(data) {
+  //     console.log(data);
+  //   });
   const obj = { times_visited: times_visited };
-
   const request = new Request('/count', {
     method: 'POST',
     body: JSON.stringify(obj),
   });
-
   request.json().then((data) => {
-    console.log(data.times_visited);
+    console.log(data);
   });
 }
 
