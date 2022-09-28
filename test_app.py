@@ -6,9 +6,6 @@ from boggle import Boggle
 
 class FlaskTests(TestCase):
 
-    # def setUp(self):
-    #     print('Inside setup')
-
     def test_home(self):
         with app.test_client() as client:
             res = client.get('/')
@@ -20,31 +17,25 @@ class FlaskTests(TestCase):
         with app.test_client() as client:
             res = client.get('/start-game')
             html = res.get_data(as_text=True)
-            # self.assertEqual(res.status_code, 200)
-            # self.assertRaises(KeyError, 'highscore')
-            # self.assertIn('<h1>', html)
-
-    def test_check_word(self):
-        with app.test_client() as client:
-
-            boggle_game = Boggle()
-            session['board'] = boggle_game.make_board()
-            res = client.get('/check-word?word=building')
-            html = res.get_data(as_text=True)
-            self.assertEqual(res.status_code, 200)
-            self.assertIn('ok', html)
-
-    def test_set_highscore(self):
-        with app.test_client() as client:
-            # print("VJC")
-            res = client.get('/set-highscore?score=100')
-            html = res.get_data(as_text=True)
             self.assertEqual(res.status_code, 200)
             self.assertIn('<h1>', html)
 
-    # def test_count(self):
-    #     with app.test_client() as client:
-    #         res = client.post('/count', data={'times_visited': 5})
-    #         html = res.get_data(as_text=True)
-    #         # self.assertEqual(res.status_code, 200)
-    #         # self.assertIn('<h1>', html)
+    def test_check_word(self):
+        with app.test_client() as client:
+            with client.session_transaction() as sess:
+                # Modify the session in this context block.
+                sess["board"] = Boggle.make_board(self)
+            res = client.get('/check-word?word=make')
+            html = res.get_data(as_text=True)
+            self.assertEqual(res.status_code, 200)
+            self.assertIn('not-on-board', html)
+
+    def test_set_highscore(self):
+        with app.test_client() as client:
+            with client.session_transaction() as sess:
+                # Modify the session in this context block.
+                sess["highscore"] = "0"
+            res = client.get('/set-highscore?score=100')
+            html = res.get_data(as_text=True)
+            self.assertEqual(res.status_code, 200)
+            self.assertIn('100', html)

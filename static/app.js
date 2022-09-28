@@ -9,8 +9,26 @@ $('#btnStart').on('click', function () {
   document.location = '/start-game';
 });
 
+let usedWords = [];
 async function checkWord(word) {
-  //   alert(word);
+  //   Make sure the user types something
+  if ($('#word').val() === '') {
+    alert('You must type a word');
+    return false;
+  }
+  // Look for word already used
+  for (const key in usedWords) {
+    if (Object.hasOwnProperty.call(usedWords, key)) {
+      const element = usedWords[key];
+      if (element === word) {
+        alert('That word has already been used.');
+        $('#word').val('');
+        return false;
+      }
+    }
+  }
+  usedWords.push(word);
+  console.log(usedWords);
   let wordCheck = await axios.get('/check-word', { params: { word: word } });
   //   console.log(wordCheck.data);
   if (wordCheck.data === 'no') {
@@ -35,7 +53,7 @@ function calculateScore(word) {
   //   alert(score);
 }
 
-time = 30;
+time = 60;
 function timer() {
   time = time - 1;
   if (time > 0) {
@@ -61,19 +79,15 @@ async function setHighscore(score) {
   });
   // console.log(setHighscore.data);
 }
-async function setCount(times_visited) {
-  // await axios
-  //   .post(
-  //     '/count', //url
-  //     { x: 1 }, //body
-  //     { headers: { 'Content-Type': 'multipart/form-data' } } // headers
-  //   )
-  //   .then(function returnJSON(response) {
-  //     return response.json();
-  //   })
-  //   .then(function handler(data) {
-  //     console.log(data);
-  //   });
+
+async function getHighscore() {
+  let getHighscore = await axios.get('/get-highscore');
+
+  $('#lblHighscore').html('Highscore : ' + getHighscore.data);
+  // console.log(setHighscore.data);
+}
+
+async function setCount() {
   const obj = { times_visited: times_visited };
   const request = new Request('/count', {
     method: 'POST',
@@ -86,5 +100,5 @@ async function setCount(times_visited) {
 
 $('#btnPost').on('click', function (evt) {
   evt.preventDefault();
-  setCount(12);
+  setCount();
 });

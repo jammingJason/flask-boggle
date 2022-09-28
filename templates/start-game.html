@@ -6,7 +6,7 @@
 </div>
 <h3>
     <div class="div col" id="lblStatus">
-        Times Visited: {{times_visited}}
+        Times Visited: {{session['times_visited']}}
     </div>
 </h3>
 <h4>
@@ -16,7 +16,7 @@
 </h4>
 <h4>
     <div class="div col" id="lblHighscore">
-        Highscore : {{highscore}}
+        Highscore : {{session['highscore']}}
     </div>
 </h4>
 <h4>
@@ -26,6 +26,8 @@
 </h4>
 <div class="div container justify-content-center">
     <table width="30%" align="center">
+
+
         {% for board in session['board'] %}
         <tr>
             {% for row in board %}
@@ -45,11 +47,6 @@
         <button class="btn btn-success m-3" id="btnGuess">Guess a Word!</button>
     </div>
 </form>
-<div class="div container">
-
-    <button class="btn btn-success m-3" id="btnPost">Click Me!</button>
-
-</div>
 <div class="div container">
 
     <button class="btn btn-success m-3" id="btnStartOver" hidden="true">Start a new Game!</button>
